@@ -184,11 +184,22 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-6">
-              <img 
-                src="/kiwoor_gemini.png" 
-                alt="kiwoor logo" 
-                className="h-16 w-auto"
-              />
+              <div className="flex items-center space-x-3">
+                {/* Logo Icon - Handshake Heart */}
+                <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Heart Shape with Handshake */}
+                  <path d="M50 85C50 85 15 65 15 40C15 28 23 20 32 20C38 20 43 23 50 30C57 23 62 20 68 20C77 20 85 28 85 40C85 65 50 85 50 85Z" 
+                    fill="#F59E0B" stroke="#F59E0B" strokeWidth="3"/>
+                  <path d="M50 85C50 85 15 65 15 40C15 28 23 20 32 20C38 20 43 23 50 30" 
+                    fill="#10B981" stroke="#10B981" strokeWidth="3"/>
+                  {/* Handshake in center */}
+                  <rect x="35" y="40" width="8" height="20" rx="2" fill="white"/>
+                  <rect x="57" y="40" width="8" height="20" rx="2" fill="white"/>
+                  <path d="M43 45 L50 50 L57 45" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                  <circle cx="47" cy="35" r="2" fill="#F59E0B"/>
+                </svg>
+                <h1 className="text-5xl sm:text-6xl font-bold">kiwoor</h1>
+              </div>
             </div>
             
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
@@ -1054,11 +1065,18 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <img 
-                  src="/kiwoor_gemini.png" 
-                  alt="kiwoor logo" 
-                  className="h-8 w-auto"
-                />
+                {/* Logo Icon - Handshake Heart */}
+                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 85C50 85 15 65 15 40C15 28 23 20 32 20C38 20 43 23 50 30C57 23 62 20 68 20C77 20 85 28 85 40C85 65 50 85 50 85Z" 
+                    fill="#F59E0B" stroke="#F59E0B" strokeWidth="3"/>
+                  <path d="M50 85C50 85 15 65 15 40C15 28 23 20 32 20C38 20 43 23 50 30" 
+                    fill="#10B981" stroke="#10B981" strokeWidth="3"/>
+                  <rect x="35" y="40" width="8" height="20" rx="2" fill="white"/>
+                  <rect x="57" y="40" width="8" height="20" rx="2" fill="white"/>
+                  <path d="M43 45 L50 50 L57 45" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                  <circle cx="47" cy="35" r="2" fill="#F59E0B"/>
+                </svg>
+                <h3 className="text-2xl font-bold text-white">kiwoor</h3>
               </div>
               <p className="text-sm text-gray-400">
                 La plateforme de confiance pour embaucher au Sénégal depuis la diaspora
