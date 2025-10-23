@@ -184,8 +184,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-6">
-              <Heart className="text-yellow-300" size={40} fill="currentColor" />
-              <h1 className="text-4xl sm:text-5xl font-bold">kiwoor</h1>
+              <img 
+                src="/kiwoor_gemini.png" 
+                alt="kiwoor logo" 
+                className="h-16 w-auto"
+              />
             </div>
             
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
@@ -1051,8 +1054,11 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <Heart className="text-green-500" size={24} fill="currentColor" />
-                <h3 className="text-xl font-bold text-white">kiwoor</h3>
+                <img 
+                  src="/kiwoor_gemini.png" 
+                  alt="kiwoor logo" 
+                  className="h-8 w-auto"
+                />
               </div>
               <p className="text-sm text-gray-400">
                 La plateforme de confiance pour embaucher au Sénégal depuis la diaspora
