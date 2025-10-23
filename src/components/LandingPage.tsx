@@ -277,9 +277,9 @@ export default function LandingPage() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://i.pravatar.cc/100?img=5" 
+                  src="/Aminata.png" 
                   alt="Aminata"
-                  className="w-16 h-16 rounded-full mr-4"
+                  className="w-16 h-16 rounded-full mr-4 object-cover"
                 />
                 <div>
                   <h4 className="font-bold text-gray-900">Aminata D.</h4>
@@ -299,9 +299,9 @@ export default function LandingPage() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://i.pravatar.cc/100?img=12" 
+                  src="/Moussa.png" 
                   alt="Moussa"
-                  className="w-16 h-16 rounded-full mr-4"
+                  className="w-16 h-16 rounded-full mr-4 object-cover"
                 />
                 <div>
                   <h4 className="font-bold text-gray-900">Moussa B.</h4>
@@ -321,9 +321,9 @@ export default function LandingPage() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://i.pravatar.cc/100?img=9" 
+                  src="/Fatou.png" 
                   alt="Fatou"
-                  className="w-16 h-16 rounded-full mr-4"
+                  className="w-16 h-16 rounded-full mr-4 object-cover"
                 />
                 <div>
                   <h4 className="font-bold text-gray-900">Fatou S.</h4>
