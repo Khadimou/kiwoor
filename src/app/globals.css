@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Amélioration de la lisibilité des champs de formulaire */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select,
+textarea {
+  color: #1f2937 !important; /* Texte foncé pour une meilleure lisibilité */
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  color: #1f2937 !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Placeholders plus visibles */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important; /* Gris moyen pour les placeholders */
+  opacity: 1 !important;
+}
+
+/* Options des selects */
+select option {
+  color: #1f2937 !important;
+  background-color: #ffffff !important;
+}
+
