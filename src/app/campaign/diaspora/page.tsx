@@ -1,24 +1,22 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useState } from 'react';
 import AdLanding from '@/components/AdLanding';
+import ABVariant from '@/components/ABVariant';
 
 function DiasporaCampaignContent() {
   const searchParams = useSearchParams();
-  const variant = searchParams.get('variant') || 'default';
+  const [activeVariant, setActiveVariant] = useState<string | null>(
+    searchParams.get('variant') || 'default'
+  );
 
-  useEffect(() => {
-    // Track variant shown via analytics
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'variant_shown', {
-        variant: variant,
-        page: 'campaign_diaspora',
-      });
-    }
-  }, [variant]);
-
-  return <AdLanding variant={variant} />;
+  return (
+    <>
+      <ABVariant onVariantChange={(variant) => setActiveVariant(variant || 'default')} />
+      <AdLanding variant={activeVariant || 'default'} />
+    </>
+  );
 }
 
 export default function DiasporaCampaignPage() {
@@ -32,4 +30,3 @@ export default function DiasporaCampaignPage() {
     </Suspense>
   );
 }
-

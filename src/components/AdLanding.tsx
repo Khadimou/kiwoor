@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, Shield, MessageCircle } from 'lucide-react';
 import MicroLeadForm from './MicroLeadForm';
 import Image from 'next/image';
+import { trackEvent } from '@/lib/analytics';
 
 interface AdLandingProps {
   variant?: string;
@@ -29,8 +30,8 @@ export default function AdLanding({ variant }: AdLandingProps) {
     }
 
     // Track variant shown
-    if (variant && typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'variant_shown', {
+    if (variant) {
+      trackEvent('variant_shown', {
         variant: variant,
       });
     }
@@ -40,22 +41,18 @@ export default function AdLanding({ variant }: AdLandingProps) {
     setShowForm(true);
     
     // Track CTA click
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'cta_click', {
-        variant: variant || 'default',
-        cta_type: 'primary',
-      });
-    }
+    trackEvent('cta_click', {
+      variant: variant || 'default',
+      cta_type: 'primary',
+    });
   };
 
   const handleWhatsAppClick = () => {
     // Track WhatsApp click
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'cta_click', {
-        variant: variant || 'default',
-        cta_type: 'whatsapp',
-      });
-    }
+    trackEvent('cta_click', {
+      variant: variant || 'default',
+      cta_type: 'whatsapp',
+    });
   };
 
   return (

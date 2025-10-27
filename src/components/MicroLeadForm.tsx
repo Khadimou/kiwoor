@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 
 interface MicroLeadFormProps {
   isOpen: boolean;
@@ -32,12 +33,10 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm }: MicroLe
       setFormStarted(true);
       
       // Fire analytics event
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'form_start', {
-          form: 'micro',
-          variant: variant || 'default',
-        });
-      }
+      trackEvent('form_start', {
+        form: 'micro',
+        variant: variant || 'default',
+      });
     }
   };
 
@@ -70,13 +69,11 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm }: MicroLe
 
       if (result.success) {
         // Fire analytics event on success
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'form_submit', {
-            form: 'micro',
-            variant: variant || 'default',
-            role: formData.role,
-          });
-        }
+        trackEvent('form_submit', {
+          form: 'micro',
+          variant: variant || 'default',
+          role: formData.role,
+        });
 
         setSubmitted(true);
 
