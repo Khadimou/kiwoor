@@ -1,15 +1,11 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import AdLanding from '@/components/AdLanding';
 import ABVariant from '@/components/ABVariant';
 
 function DiasporaCampaignContent() {
-  const searchParams = useSearchParams();
-  const [activeVariant, setActiveVariant] = useState<string | null>(
-    searchParams.get('variant') || 'default'
-  );
+  const [activeVariant, setActiveVariant] = useState<string | null>('default');
 
   return (
     <>

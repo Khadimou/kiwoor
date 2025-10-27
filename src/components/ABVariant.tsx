@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
 
 interface ABVariantProps {
@@ -26,13 +25,13 @@ const VARIANT_STORAGE_KEY = 'kiwoor_variant';
  * - Persists across page reloads
  */
 export default function ABVariant({ children, onVariantChange }: ABVariantProps) {
-  const searchParams = useSearchParams();
   const [variant, setVariant] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Get variant from URL
-    const urlVariant = searchParams?.get('variant');
+    // Get variant from URL using window.location (client-side only)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlVariant = urlParams.get('variant');
     
     // Get stored variant from localStorage
     const storedVariant = typeof window !== 'undefined' 
@@ -69,7 +68,7 @@ export default function ABVariant({ children, onVariantChange }: ABVariantProps)
     if (onVariantChange) {
       onVariantChange(activeVariant);
     }
-  }, [searchParams, onVariantChange]);
+  }, [onVariantChange]);
 
   // Don't render children until initialized to avoid hydration mismatch
   if (!isInitialized) {
