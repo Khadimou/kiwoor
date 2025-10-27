@@ -274,7 +274,7 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
             Ils ont trouvé leur personne de confiance
           </h2>
-          <p className="text-center text-gray-600 mb-12">Exemples réels de nos futurs utilisateurs</p>
+          <p className="text-center text-gray-600 mb-12">Quelques témoignages de nos clients</p>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -1068,7 +1068,7 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold text-white mb-3">Contact</h4>
               <p className="text-sm text-gray-400 mb-2">
-                📧 contact@sununaal.com
+                📧 contact@kiwoor.com
               </p>
               <p className="text-sm text-gray-400 mb-2">
                 📱 WhatsApp: +221 77 711 59 72

@@ -4,37 +4,28 @@ import React, { useState, useEffect } from 'react';
 import { X, CheckCircle } from 'lucide-react';
 import { trackEvent } from '@/lib/analytics';
 
-interface MicroLeadFormProps {
+interface CandidatsFormProps {
   isOpen: boolean;
   onClose: () => void;
   variant?: string;
   utm?: Record<string, string>;
-  targetAudience?: string;
 }
 
 interface FormData {
   role: string;
   city: string;
   contact: string;
-  // Champs pour diaspora
-  country?: string;
-  activityType?: string;
-  budget?: string;
-  // Champs pour locaux
-  skills?: string;
-  experience?: string;
-  availability?: string;
+  skills: string;
+  experience: string;
+  availability: string;
 }
 
-export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAudience }: MicroLeadFormProps) {
+export default function CandidatsForm({ isOpen, onClose, variant, utm }: CandidatsFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     role: '',
     city: '',
     contact: '',
-    country: '',
-    activityType: '',
-    budget: '',
     skills: '',
     experience: '',
     availability: '',
@@ -49,7 +40,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
       
       // Fire analytics event
       trackEvent('form_start', {
-        form: 'micro',
+        form: 'candidats',
         variant: variant || 'default',
       });
     }
@@ -62,10 +53,13 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
     try {
       // Préparer le payload
       const payload = {
-        type: 'micro',
+        type: 'candidats',
         role: formData.role,
         city: formData.city,
         contact: formData.contact,
+        skills: formData.skills,
+        experience: formData.experience,
+        availability: formData.availability,
         utm: utm || {},
         variant: variant || 'default',
         timestamp: new Date().toISOString(),
@@ -85,7 +79,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
       if (result.success) {
         // Fire analytics event on success
         trackEvent('form_submit', {
-          form: 'micro',
+          form: 'candidats',
           variant: variant || 'default',
           role: formData.role,
         });
@@ -116,7 +110,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              type: 'micro',
+              type: 'candidats',
               ...formData,
               variant,
               utm,
@@ -167,14 +161,20 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               🎉 Inscription réussie !
             </h2>
             <p className="text-gray-600 mb-6">
-              On te contacte sous 48h maximum pour te présenter 3-5 profils vérifiés.
+              On te contacte sous 48h maximum pour te présenter des opportunités d'emploi.
             </p>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
               <p className="text-sm text-gray-700 mb-2">
-                📋 <strong>Poste recherché :</strong> {formData.role}
+                📋 <strong>Profil :</strong> {formData.role}
               </p>
               <p className="text-sm text-gray-700 mb-2">
                 📍 <strong>Localisation :</strong> {formData.city}
+              </p>
+              <p className="text-sm text-gray-700 mb-2">
+                💼 <strong>Expérience :</strong> {formData.experience}
+              </p>
+              <p className="text-sm text-gray-700 mb-2">
+                ⏰ <strong>Disponibilité :</strong> {formData.availability}
               </p>
               <p className="text-sm text-gray-700">
                 📱 <strong>Contact :</strong> {formData.contact}
@@ -203,10 +203,10 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
         </button>
 
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Inscription rapide (2 min)
+          🇸🇳 Inscription Candidat (2 min)
         </h2>
         <p className="text-gray-600 mb-6">
-          Remplis ces 3 champs et on te contacte sous 48h max.
+          Remplis ces champs et on te contacte sous 48h max.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -222,21 +222,21 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               required
             >
               <option value="">Sélectionne un poste</option>
-              <option value="Gérant de boutique/commerce">Gérant de boutique/commerce</option>
-              <option value="Gestionnaire immobilier">Gestionnaire immobilier (locations)</option>
-              <option value="Superviseur terrain/agricole">Superviseur terrain/agricole</option>
-              <option value="Aide à domicile">Aide à domicile (pour famille)</option>
-              <option value="Chauffeur personnel">Chauffeur personnel/familial</option>
-              <option value="Gardien/Veilleur">Gardien/Veilleur</option>
-              <option value="Assistant administratif">Assistant administratif</option>
-              <option value="Opérateur food truck/restaurant">Opérateur food truck/restaurant</option>
-              <option value="Autre">Autre (on te contactera pour préciser)</option>
+              <option value="Candidat gérant">Candidat gérant de boutique</option>
+              <option value="Candidat gestionnaire">Candidat gestionnaire immobilier</option>
+              <option value="Candidat superviseur">Candidat superviseur terrain</option>
+              <option value="Candidat aide-famille">Candidat aide à domicile</option>
+              <option value="Candidat chauffeur">Candidat chauffeur personnel</option>
+              <option value="Candidat gardien">Candidat gardien/veilleur</option>
+              <option value="Candidat assistant">Candidat assistant administratif</option>
+              <option value="Candidat opérateur">Candidat opérateur food truck</option>
+              <option value="Candidat autre">Autre profil</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Dans quelle ville au Sénégal ? *
+              Dans quelle ville tu es ? *
             </label>
             <input
               type="text"
@@ -251,6 +251,58 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
+              Années d'expérience *
+            </label>
+            <select
+              value={formData.experience}
+              onChange={(e) => updateField('experience', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+              required
+            >
+              <option value="">Sélectionne ton expérience</option>
+              <option value="0-1 ans">0-1 ans</option>
+              <option value="2-5 ans">2-5 ans</option>
+              <option value="5-10 ans">5-10 ans</option>
+              <option value="10+ ans">10+ ans</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Disponibilité *
+            </label>
+            <select
+              value={formData.availability}
+              onChange={(e) => updateField('availability', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+              required
+            >
+              <option value="">Sélectionne ta disponibilité</option>
+              <option value="Temps plein">Temps plein</option>
+              <option value="Temps partiel">Temps partiel</option>
+              <option value="Weekend">Weekend seulement</option>
+              <option value="Flexible">Flexible</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Compétences particulières
+            </label>
+            <input
+              type="text"
+              value={formData.skills}
+              onChange={(e) => updateField('skills', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+              placeholder="Ex: Gestion de stock, Comptabilité, Langues..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               WhatsApp ou Email *
             </label>
             <input
@@ -259,7 +311,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               onChange={(e) => updateField('contact', e.target.value)}
               onFocus={handleFormStart}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
-              placeholder="+33 6 12 34 56 78 ou email@example.com"
+              placeholder="+221 77 123 45 67 ou email@example.com"
               required
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -281,7 +333,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
             disabled={isSubmitting}
             className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl text-lg transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Inscription...' : '🚀 Recevoir mes profils sous 48h'}
+            {isSubmitting ? 'Inscription...' : '🚀 Recevoir des offres sous 48h'}
           </button>
 
           <p className="text-center text-xs text-gray-500">

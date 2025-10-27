@@ -213,7 +213,7 @@ L'application est 100% prête à être déployée sur Vercel :
 1. **Formulaire** - Actuellement console.log, à connecter à une API
 2. **Images** - Utiliser avatars de pravatar.cc (remplacer par vraies photos)
 3. **Contact** - Remplacer "XX XXX XX XX" par vrai numéro
-4. **Email** - Remplacer contact@sununaal.com par email final
+4. **Email** - Remplacer contact@kiwoor.com par email final
 5. **Analytics** - Ajouter Google Analytics / Vercel Analytics
 6. **Monitoring** - Ajouter Sentry pour erreurs
 

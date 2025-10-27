@@ -4,29 +4,23 @@ import React, { useState, useEffect } from 'react';
 import { X, CheckCircle } from 'lucide-react';
 import { trackEvent } from '@/lib/analytics';
 
-interface MicroLeadFormProps {
+interface DiasporaFormProps {
   isOpen: boolean;
   onClose: () => void;
   variant?: string;
   utm?: Record<string, string>;
-  targetAudience?: string;
 }
 
 interface FormData {
   role: string;
   city: string;
   contact: string;
-  // Champs pour diaspora
-  country?: string;
-  activityType?: string;
-  budget?: string;
-  // Champs pour locaux
-  skills?: string;
-  experience?: string;
-  availability?: string;
+  country: string;
+  activityType: string;
+  budget: string;
 }
 
-export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAudience }: MicroLeadFormProps) {
+export default function DiasporaForm({ isOpen, onClose, variant, utm }: DiasporaFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     role: '',
@@ -35,9 +29,6 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
     country: '',
     activityType: '',
     budget: '',
-    skills: '',
-    experience: '',
-    availability: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStarted, setFormStarted] = useState(false);
@@ -49,7 +40,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
       
       // Fire analytics event
       trackEvent('form_start', {
-        form: 'micro',
+        form: 'diaspora',
         variant: variant || 'default',
       });
     }
@@ -62,10 +53,13 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
     try {
       // Préparer le payload
       const payload = {
-        type: 'micro',
+        type: 'diaspora',
         role: formData.role,
         city: formData.city,
         contact: formData.contact,
+        country: formData.country,
+        activityType: formData.activityType,
+        budget: formData.budget,
         utm: utm || {},
         variant: variant || 'default',
         timestamp: new Date().toISOString(),
@@ -85,7 +79,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
       if (result.success) {
         // Fire analytics event on success
         trackEvent('form_submit', {
-          form: 'micro',
+          form: 'diaspora',
           variant: variant || 'default',
           role: formData.role,
         });
@@ -116,7 +110,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              type: 'micro',
+              type: 'diaspora',
               ...formData,
               variant,
               utm,
@@ -176,6 +170,12 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               <p className="text-sm text-gray-700 mb-2">
                 📍 <strong>Localisation :</strong> {formData.city}
               </p>
+              <p className="text-sm text-gray-700 mb-2">
+                🌍 <strong>Pays :</strong> {formData.country}
+              </p>
+              <p className="text-sm text-gray-700 mb-2">
+                🏢 <strong>Activité :</strong> {formData.activityType}
+              </p>
               <p className="text-sm text-gray-700">
                 📱 <strong>Contact :</strong> {formData.contact}
               </p>
@@ -203,10 +203,10 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
         </button>
 
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Inscription rapide (2 min)
+          🌍 Inscription Diaspora (2 min)
         </h2>
         <p className="text-gray-600 mb-6">
-          Remplis ces 3 champs et on te contacte sous 48h max.
+          Remplis ces champs et on te contacte sous 48h max.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -247,6 +247,66 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
               placeholder="Ex: Dakar, Thiès, Saint-Louis..."
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Pays de résidence *
+            </label>
+            <select
+              value={formData.country}
+              onChange={(e) => updateField('country', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+              required
+            >
+              <option value="">Sélectionne ton pays</option>
+              <option value="France">France</option>
+              <option value="Canada">Canada</option>
+              <option value="USA">États-Unis</option>
+              <option value="Italie">Italie</option>
+              <option value="Espagne">Espagne</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Type d'activité *
+            </label>
+            <select
+              value={formData.activityType}
+              onChange={(e) => updateField('activityType', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+              required
+            >
+              <option value="">Sélectionne ton activité</option>
+              <option value="Commerce/Boutique">Commerce/Boutique</option>
+              <option value="Immobilier">Immobilier</option>
+              <option value="Services">Services</option>
+              <option value="Investissement">Investissement</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Budget mensuel approximatif
+            </label>
+            <select
+              value={formData.budget}
+              onChange={(e) => updateField('budget', e.target.value)}
+              onFocus={handleFormStart}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+            >
+              <option value="">Sélectionne ton budget</option>
+              <option value="50-100k FCFA">50-100k FCFA</option>
+              <option value="100-200k FCFA">100-200k FCFA</option>
+              <option value="200-500k FCFA">200-500k FCFA</option>
+              <option value="500k+ FCFA">500k+ FCFA</option>
+              <option value="À discuter">À discuter</option>
+            </select>
           </div>
 
           <div>
