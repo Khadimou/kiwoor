@@ -21,10 +21,12 @@ async function setupGoogleSheets() {
       throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID non configuré dans .env.local');
     }
 
-    // En-têtes pour la feuille Diaspora
+    // En-têtes pour la feuille Diaspora (UPDATED avec lead_type, variant, utm)
     const diasporaHeaders = [
       'Timestamp',
-      'Type',
+      'Type User',
+      'Lead Type',
+      'Variant',
       'Nom complet',
       'Email',
       'Téléphone',
@@ -40,13 +42,16 @@ async function setupGoogleSheets() {
       'Prêt à payer',
       'Budget max',
       'Préoccupation principale',
-      'Commentaires'
+      'Commentaires',
+      'UTM Source'
     ];
 
-    // En-têtes pour la feuille Locaux
+    // En-têtes pour la feuille Locaux (UPDATED)
     const localHeaders = [
       'Timestamp',
-      'Type',
+      'Type User',
+      'Lead Type',
+      'Variant',
       'Nom complet',
       'Email',
       'Téléphone',
@@ -62,7 +67,22 @@ async function setupGoogleSheets() {
       'Prêt à payer',
       'Budget max',
       'Préoccupation principale',
-      'Commentaires'
+      'Commentaires',
+      'UTM Source'
+    ];
+
+    // En-têtes pour la nouvelle feuille MicroLeads
+    const microLeadsHeaders = [
+      'Timestamp',
+      'Type',
+      'Variant',
+      'Poste recherché',
+      'Ville',
+      'Contact',
+      'UTM Source',
+      'UTM Medium',
+      'UTM Campaign',
+      'UTM Full'
     ];
 
     // Vérifier les onglets existants et créer ceux manquants
@@ -92,11 +112,28 @@ async function setupGoogleSheets() {
       });
     }
 
+    // Créer l'onglet "MicroLeads" s'il n'existe pas
+    if (!existingSheets.includes('MicroLeads')) {
+      console.log('➕ Création de l\'onglet "MicroLeads"...');
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [{
+            addSheet: {
+              properties: {
+                title: 'MicroLeads'
+              }
+            }
+          }]
+        }
+      });
+    }
+
     // Ajouter les en-têtes à la feuille Diaspora
     console.log('📝 Configuration de l\'onglet "Diaspora"...');
     await sheets.spreadsheets.values.update({
       spreadsheetId,
-      range: 'Diaspora!A1:R1',
+      range: 'Diaspora!A1:U1',
       valueInputOption: 'RAW',
       requestBody: {
         values: [diasporaHeaders]
@@ -107,10 +144,21 @@ async function setupGoogleSheets() {
     console.log('📝 Configuration de l\'onglet "Locaux"...');
     await sheets.spreadsheets.values.update({
       spreadsheetId,
-      range: 'Locaux!A1:R1',
+      range: 'Locaux!A1:U1',
       valueInputOption: 'RAW',
       requestBody: {
         values: [localHeaders]
+      }
+    });
+
+    // Ajouter les en-têtes à la feuille MicroLeads
+    console.log('📝 Configuration de l\'onglet "MicroLeads"...');
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: 'MicroLeads!A1:J1',
+      valueInputOption: 'RAW',
+      requestBody: {
+        values: [microLeadsHeaders]
       }
     });
 
@@ -129,7 +177,7 @@ async function setupGoogleSheets() {
           startRowIndex: 0,
           endRowIndex: 1,
           startColumnIndex: 0,
-          endColumnIndex: 18
+          endColumnIndex: 25 // Enough columns for all sheets
         },
         cell: {
           userEnteredFormat: {
@@ -150,7 +198,8 @@ async function setupGoogleSheets() {
 
     console.log('✅ Configuration terminée !');
     console.log(`📋 Feuille Diaspora: https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=0`);
-    console.log(`📋 Feuille Locaux: https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=1`);
+    console.log(`📋 Feuille Locaux: https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`);
+    console.log(`📋 Feuille MicroLeads: https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`);
 
   } catch (error) {
     console.error('❌ Erreur lors de la configuration:', error.message);

@@ -11,9 +11,23 @@ interface AdLandingProps {
 
 export default function AdLanding({ variant }: AdLandingProps) {
   const [showForm, setShowForm] = useState(false);
+  const [utmParams, setUtmParams] = useState<Record<string, string>>({});
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '221777115972';
 
   useEffect(() => {
+    // Extract UTM parameters from URL
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const utm: Record<string, string> = {};
+      
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(key => {
+        const value = params.get(key);
+        if (value) utm[key] = value;
+      });
+      
+      setUtmParams(utm);
+    }
+
     // Track variant shown
     if (variant && typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'variant_shown', {
@@ -166,6 +180,7 @@ export default function AdLanding({ variant }: AdLandingProps) {
         isOpen={showForm} 
         onClose={() => setShowForm(false)} 
         variant={variant}
+        utm={utmParams}
       />
     </div>
   );
