@@ -71,7 +71,7 @@ export default function MicroLeadForm({ isOpen, onClose, variant, utm, targetAud
         timestamp: new Date().toISOString(),
       };
 
-      // Envoyer les données à l'API
+      // Envoyer les données à l'API (désactivable via NEXT_PUBLIC_USE_SHEETS)
       const response = await fetch('/api/submit-form', {
         method: 'POST',
         headers: {

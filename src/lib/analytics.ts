@@ -47,8 +47,14 @@ export function trackEvent(name: string, params?: AnalyticsParams): void {
       conversion: 'Purchase',
     };
 
-    const fbEvent = fbEventMap[name] || 'CustomEvent';
-    window.fbq('track', fbEvent, params);
+    const standardEvent = fbEventMap[name];
+    if (standardEvent) {
+      // Use standard event mapping
+      window.fbq('track', standardEvent, params);
+    } else {
+      // Use custom event with explicit name (avoids "CustomEvent" without required 'event')
+      window.fbq('trackCustom', name, params);
+    }
   }
 
   // 4. Microsoft Clarity

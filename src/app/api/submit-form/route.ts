@@ -39,6 +39,14 @@ type FormData = MicroLeadData | FullFormData;
 
 export async function POST(request: NextRequest) {
   try {
+    // Feature flag: allow disabling direct Google Sheets writes in production
+    if (process.env.NEXT_PUBLIC_USE_SHEETS !== 'true') {
+      return NextResponse.json({
+        success: true,
+        message: 'Sheets write disabled (using Zapier only)',
+      });
+    }
+
     const formData: FormData = await request.json();
     
     // Configuration Google Sheets

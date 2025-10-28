@@ -65,7 +65,7 @@ export default function DiasporaForm({ isOpen, onClose, variant, utm }: Diaspora
         timestamp: new Date().toISOString(),
       };
 
-      // Envoyer les données à l'API
+      // Envoyer les données à l'API (désactivable via NEXT_PUBLIC_USE_SHEETS)
       const response = await fetch('/api/submit-form', {
         method: 'POST',
         headers: {
